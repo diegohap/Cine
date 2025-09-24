@@ -152,6 +152,33 @@ public class DataInitializer {
                     .build());
         }
 
+        // CLIENTES
+        createClients(serviceCliente);
+        serviceCliente.getAll().forEach(c -> System.out.println(c.toString()));
+    }
+
+    private static void createClients(ServiceCliente serviceCliente) {
+        serviceCliente.add(new Cliente(UUID.generarUUID(), "Juan", "Perez", "juanperez@email.com", "3516549870"));
+        serviceCliente.add(new Cliente(UUID.generarUUID(), "Maria", "Lopez", "maria.lopez@email.com", "3511234567"));
+        serviceCliente.add(new Cliente(UUID.generarUUID(), "Carlos", "Gomez", "cgomez@email.com", "3519876543"));
+        serviceCliente.add(new Cliente(UUID.generarUUID(), "Lucia", "Fernandez", "luciaf@email.com", "3541239876"));
+        serviceCliente.add(new Cliente(UUID.generarUUID(), "Pedro", "Martinez", "pedro.martinez@email.com", "3514567890"));
+        serviceCliente.add(new Cliente(UUID.generarUUID(), "Ana", "Garcia", "ana.garcia@email.com", "3511122334"));
+        serviceCliente.add(new Cliente(UUID.generarUUID(), "Sofia", "Diaz", "sofia.diaz@email.com", "3512233445"));
+        serviceCliente.add(new Cliente(UUID.generarUUID(), "Martin", "Suarez", "martins@email.com", "3513344556"));
+        serviceCliente.add(new Cliente(UUID.generarUUID(), "Javier", "Ruiz", "jruiz@email.com", "3514455667"));
+        serviceCliente.add(new Cliente(UUID.generarUUID(), "Camila", "Torres", "camila.torres@email.com", "3515566778"));
+        serviceCliente.add(new Cliente(UUID.generarUUID(), "Diego", "Mendez", "dmendez@email.com", "3516677889"));
+        serviceCliente.add(new Cliente(UUID.generarUUID(), "Florencia", "Morales", "flor.morales@email.com", "3517788990"));
+        serviceCliente.add(new Cliente(UUID.generarUUID(), "Ricardo", "Ramos", "ricardo.ramos@email.com", "3518899001"));
+        serviceCliente.add(new Cliente(UUID.generarUUID(), "Julieta", "Castro", "julieta.castro@email.com", "3519900112"));
+        serviceCliente.add(new Cliente(UUID.generarUUID(), "Andres", "Pereyra", "andres.pereyra@email.com", "3511011123"));
+        serviceCliente.add(new Cliente(UUID.generarUUID(), "Valentina", "Ortiz", "valen.ortiz@email.com", "3512122233"));
+        serviceCliente.add(new Cliente(UUID.generarUUID(), "Gustavo", "Romero", "gustavo.romero@email.com", "3513233344"));
+        serviceCliente.add(new Cliente(UUID.generarUUID(), "Carolina", "Acosta", "caro.acosta@email.com", "3514344455"));
+        serviceCliente.add(new Cliente(UUID.generarUUID(), "Ezequiel", "Vega", "eze.vega@email.com", "3515455566"));
+        serviceCliente.add(new Cliente(UUID.generarUUID(), "Paula", "Herrera", "paula.herrera@email.com", "3516566677"));
+
     }
 
     private static List<Butaca> generarButacas() {
