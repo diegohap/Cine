@@ -7,10 +7,18 @@ import java.util.List;
 
 
 public class ServiceFuncion extends Service<Funcion> {
+    private static ServiceFuncion instance;
     private final int FILAS = 20;
 
-    public ServiceFuncion(List<Funcion> funciones) {
+    private ServiceFuncion(List<Funcion> funciones) {
         super(funciones);
+    }
+
+    public static ServiceFuncion getInstance() {
+        if (instance == null) {
+            instance = new ServiceFuncion(new java.util.ArrayList<>());
+        }
+        return instance;
     }
 
     public String showInformation(Funcion funcion) {

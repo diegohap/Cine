@@ -1,14 +1,25 @@
 package com.cine.service;
 
 import com.cine.entity.Idioma;
-import lombok.AllArgsConstructor;
 
 import java.util.List;
 import java.util.Optional;
 
-@AllArgsConstructor
+
 public class ServiceIdioma {
+    private static ServiceIdioma instance;
     private List<Idioma> idiomas;
+
+    private ServiceIdioma(List<Idioma> idiomas) {
+        this.idiomas = idiomas;
+    }
+
+    public static ServiceIdioma getInstance() {
+        if (instance == null) {
+            instance = new ServiceIdioma(new java.util.ArrayList<>());
+        }
+        return instance;
+    }
 
     public void crearIdioma(Idioma idioma) {
         idiomas.add(idioma);

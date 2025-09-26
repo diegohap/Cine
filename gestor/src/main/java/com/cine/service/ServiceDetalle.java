@@ -6,7 +6,16 @@ import java.util.List;
 
 
 public class ServiceDetalle extends Service<Detalle>{
-    public ServiceDetalle(List<Detalle> detalles) {
+    private static ServiceDetalle instance;
+
+    private ServiceDetalle(List<Detalle> detalles) {
         super(detalles);
+    }
+
+    public static ServiceDetalle getInstance() {
+        if (instance == null) {
+            instance = new ServiceDetalle(new java.util.ArrayList<>());
+        }
+        return instance;
     }
 }

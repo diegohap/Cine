@@ -16,8 +16,17 @@ import static com.cine.service.ServiceSala.SALA_PREMIUM_PRICE_EXTRA;
 
 
 public class ServiceReserva extends Service<Reserva> {
-    public ServiceReserva(List<Reserva> reservas) {
+    private static ServiceReserva instance;
+
+    private ServiceReserva(List<Reserva> reservas) {
         super(reservas);
+    }
+
+    public static ServiceReserva getInstance() {
+        if (instance == null) {
+            instance = new ServiceReserva(new java.util.ArrayList<>());
+        }
+        return instance;
     }
 
     public Reserva createReserva(Cliente cliente, Funcion funcion, int cantButacas, ServiceDetalle serviceDetalle) throws NoButacaAvailable {

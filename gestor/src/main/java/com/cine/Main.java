@@ -17,15 +17,15 @@ import java.util.ArrayList;
 public class Main {
     public static void main(String[] args) {
 
-        ServiceIdioma serviceIdioma = new ServiceIdioma(new ArrayList<>());
-        ServiceButaca serviceButaca = new ServiceButaca(new ArrayList<>());
-        ServicePelicula servicePelicula = new ServicePelicula(new ArrayList<>());
-        ServiceSala serviceSala = new ServiceSala(new ArrayList<>());
-        ServiceFuncion serviceFuncion = new ServiceFuncion(new ArrayList<>());
-        ServiceCliente serviceCliente = new ServiceCliente(new ArrayList<>());
-        ServiceDetalle serviceDetalle = new ServiceDetalle(new ArrayList<>());
-        ServiceReserva serviceReserva = new ServiceReserva(new ArrayList<>());
-        ServiceFactura serviceFactura = new ServiceFactura(new ArrayList<>());
+        ServiceIdioma serviceIdioma = ServiceIdioma.getInstance();
+        ServiceButaca serviceButaca = ServiceButaca.getInstance();
+        ServicePelicula servicePelicula = ServicePelicula.getInstance();
+        ServiceSala serviceSala = ServiceSala.getInstance();
+        ServiceFuncion serviceFuncion = ServiceFuncion.getInstance();
+        ServiceCliente serviceCliente = ServiceCliente.getInstance();
+        ServiceDetalle serviceDetalle = ServiceDetalle.getInstance();
+        ServiceReserva serviceReserva = ServiceReserva.getInstance();
+        ServiceFactura serviceFactura = ServiceFactura.getInstance();
 
         Runner.initialize(serviceIdioma,
                 servicePelicula,
