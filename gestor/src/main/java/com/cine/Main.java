@@ -1,13 +1,17 @@
 package com.cine;
 
-import com.cine.bootstrap.DataInitializer;
-import com.cine.entity.Butaca;
-import com.cine.entity.Sala;
-import com.cine.service.*;
-import com.cine.util.UUID;
+import com.cine.bootstrap.Runner;
+import com.cine.service.ServiceButaca;
+import com.cine.service.ServiceCliente;
+import com.cine.service.ServiceDetalle;
+import com.cine.service.ServiceFactura;
+import com.cine.service.ServiceFuncion;
+import com.cine.service.ServiceIdioma;
+import com.cine.service.ServicePelicula;
+import com.cine.service.ServiceReserva;
+import com.cine.service.ServiceSala;
 
 import java.util.ArrayList;
-import java.util.List;
 
 
 public class Main {
@@ -23,20 +27,14 @@ public class Main {
         ServiceReserva serviceReserva = new ServiceReserva(new ArrayList<>());
         ServiceFactura serviceFactura = new ServiceFactura(new ArrayList<>());
 
-        DataInitializer.initialize(serviceIdioma,
-                                   servicePelicula,
-                                   serviceButaca,
-                                   serviceSala,
-                                   serviceFuncion,
-                                   serviceCliente,
-                                   serviceDetalle,
-                                   serviceReserva,
-                                   serviceFactura);
-
-//        System.out.println("Salas disponibles" + serviceSala.toString());
-//        System.out.println(serviceSala.getAll().toString());
-
-        // Ejemplo de uso: Listar todas las funciones
-        System.out.println("Funciones disponibles: " + serviceFuncion.toString());
+        Runner.initialize(serviceIdioma,
+                servicePelicula,
+                serviceButaca,
+                serviceSala,
+                serviceFuncion,
+                serviceCliente,
+                serviceDetalle,
+                serviceReserva,
+                serviceFactura);
     }
 }

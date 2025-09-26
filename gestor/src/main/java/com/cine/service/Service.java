@@ -3,6 +3,8 @@ package com.cine.service;
 import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Scanner;
+
 
 public abstract class Service<T> {
 
@@ -56,6 +58,28 @@ public abstract class Service<T> {
             throw new RuntimeException(e);
         }
         return filteredItemList;
+    }
+
+    public void showAllPaged() {
+        Scanner sc = new Scanner(System.in);
+        final int PAGE_SIZE = 5;
+        int total = getAll().size();
+
+//        sc.nextLine();
+        for (int i = 0; i < total; i++) {
+            System.out.println((i+1) + ". " + getAll().get(i).toString());
+
+            // cuando i llega a PAGE_SIZE, espera tecla antes de seguir
+            if ((i + 1) % PAGE_SIZE == 0 && (i + 1) < total) {
+                System.out.println("Presiona ENTER para ver más o ESPACIO + ENTER para salir...");
+                String input = sc.nextLine();
+                if (!input.isEmpty() && input.charAt(0) == ' ') {
+//                    System.out.println("---- Cancelado por el usuario ----");
+                    return; // corto el metodo
+                }
+            }
+        }
+        System.out.println("---- Fin de la lista ----");
     }
 
     @Override

@@ -4,8 +4,8 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 
+
 import java.util.Date;
-import java.util.List;
 
 @AllArgsConstructor
 @Data
@@ -16,5 +16,15 @@ public class Reserva {
     private Double precioTotal;
     private Date fechaReserva;
     private Boolean estadoReserva;
-    private List<Detalle> detalles;
+
+    @Override
+    public String toString() {
+        return "Reserva{" +
+                "uuid='" + uuid + '\'' +
+                ", cliente=" + cliente +
+                ", precioTotal= " + String.format("%.2f",precioTotal) +
+                ", fechaReserva: " + fechaReserva +
+                ", estadoReserva: " + estadoReserva +
+                '}';
+    }
 }

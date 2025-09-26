@@ -1,16 +1,37 @@
 package com.cine.bootstrap;
 
-import com.cine.entity.*;
-import com.cine.service.*;
+import com.cine.entity.Butaca;
+import com.cine.entity.Cliente;
+import com.cine.entity.Funcion;
+import com.cine.entity.Idioma;
+import com.cine.entity.Lenguaje;
+import com.cine.entity.Pelicula;
+import com.cine.entity.Reserva;
+import com.cine.entity.Sala;
+import com.cine.exception.NoButacaAvailable;
+import com.cine.service.ServiceButaca;
+import com.cine.service.ServiceCliente;
+import com.cine.service.ServiceDetalle;
+import com.cine.service.ServiceFactura;
+import com.cine.service.ServiceFuncion;
+import com.cine.service.ServiceIdioma;
+import com.cine.service.ServicePelicula;
+import com.cine.service.ServiceReserva;
+import com.cine.service.ServiceSala;
 import com.cine.util.UUID;
 
-import java.time.*;
+import java.time.DayOfWeek;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.LocalTime;
+import java.time.ZoneId;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Random;
 
-public class DataInitializer {
+
+public class Runner {
     public static void initialize(ServiceIdioma serviceIdioma,
                                   ServicePelicula servicePelicula,
                                   ServiceButaca serviceButaca,
@@ -126,26 +147,24 @@ public class DataInitializer {
         servicePelicula.add(new Pelicula(UUID.generarUUID(), "The Hobbit: The Desolation of Smaug", 4.5, idiomas.get(1), "Fantasy", 161));
         servicePelicula.add(new Pelicula(UUID.generarUUID(), "The Hobbit: The Battle of the Five Armies", 4.4, idiomas.get(1), "Fantasy", 144));
 
-        // SALAS CON BUTACAS
-        for(int i=0; i<2; i++) {
-            List <Butaca> butacas = generarButacas();
-            for(Butaca butaca : butacas) {
-                serviceButaca.add(butaca);
-            }
+        // SALAS
+        for(int i=0; i<4; i++) {
             serviceSala.add(Sala.builder()
                             .uuid(UUID.generarUUID())
-                            .butacas(butacas)
                             .is3D(i%2==0)
-                            .isPremium(i%2==0)
+                            .cantButacas(150 + (int)(Math.random()*41))
                             .numero(i+1)
                     .build());
         }
 
         // FUNCIONES
-        for(int i=0; i<2; i++) {
+        for(int i=0; i<4; i++) {
+            Sala sala = serviceSala.getAll().get((int)(Math.random()*serviceSala.getAll().size()));
+            List<Butaca> butacas = generarButacas(sala.getCantButacas(), serviceButaca);
             serviceFuncion.add(Funcion.builder()
                             .uuid(UUID.generarUUID())
-                            .sala(serviceSala.getAll().get((int)(Math.random()*serviceSala.getAll().size())))
+                            .sala(sala)
+                            .butacas(butacas)
                             .pelicula(servicePelicula.getAll().get((int)(Math.random()*servicePelicula.getAll().size())))
                             .horario(randomDateLast12MonthsNoMonday())
                             .precioUnitario(8000 + (Math.random()*4001))
@@ -154,8 +173,46 @@ public class DataInitializer {
 
         // CLIENTES
         createClients(serviceCliente);
-        serviceCliente.getAll().forEach(c -> System.out.println(c.toString()));
+
+        // RESERVAS Y DETALLES
+        for(int i=0; i<10; i++) {
+            Funcion funcion = serviceFuncion.getAll().get((int)(Math.random()*serviceFuncion.getAll().size()));
+//            System.out.println(serviceFuncion.getInformation(funcion));
+            Cliente cliente = serviceCliente.getAll().get((int)(Math.random()*serviceCliente.getAll().size()));
+
+            try {
+                serviceReserva.createReserva(
+                        cliente,
+                        funcion,
+                        (int)((Math.random()*6)+1),
+                        serviceDetalle);
+//                System.out.println(r.toString());
+
+//                serviceDetalle.getAll().stream()
+//                        .filter(d -> d.getReserva().getUuid().equals(r.getUuid()))
+//                        .map(Detalle::toString)
+//                        .toList()
+//                        .forEach(System.out::println);
+            } catch (NoButacaAvailable e) {
+                e.printStackTrace();
+            }
+
+//            System.out.println(serviceFuncion.getInformation(funcion));
+        }
+//        Reserva r = null;
+
+        Menu menu = new Menu();
+        menu.showMainMenu(serviceIdioma,
+                servicePelicula,
+                serviceButaca,
+                serviceSala,
+                serviceFuncion,
+                serviceCliente,
+                serviceDetalle,
+                serviceReserva,
+                serviceFactura);
     }
+
 
     private static void createClients(ServiceCliente serviceCliente) {
         serviceCliente.add(new Cliente(UUID.generarUUID(), "Juan", "Perez", "juanperez@email.com", "3516549870"));
@@ -181,16 +238,17 @@ public class DataInitializer {
 
     }
 
-    private static List<Butaca> generarButacas() {
+    private static List<Butaca> generarButacas(int numButacas, ServiceButaca serviceButaca) {
         List<Butaca> butacas = new ArrayList<>();
-        int cantidadButacas = 50 + (int)(Math.random() * 21);
-        for(int i=0; i<cantidadButacas; i++) {
+        for(int i=0; i<numButacas; i++) {
             butacas.add(Butaca.builder()
                     .uuid(UUID.generarUUID())
                     .num(i)
                     .estado(false)
+                    .premium(i%10==0)
                     .build());
         }
+        serviceButaca.getAll().addAll(butacas);
         return butacas;
     }
 
